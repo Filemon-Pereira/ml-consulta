@@ -14,14 +14,19 @@ app.get("/consultar", async (req, res) => {
       "&limit=5";
 
     const r = await fetch(url, {
-      headers: { "User-Agent": "Mozilla/5.0" }
+      headers: {
+        "User-Agent":
+          "Mozilla/5.0 (Windows NT 10.0; Win64; x64)",
+        "Accept": "application/json"
+      }
     });
 
-    const data = await r.json();
+    const text = await r.text();
 
     resultados.push({
       referencia: termo,
-      resultados: data.results || []
+      status: r.status,
+      raw: text.substring(0, 500) // primeiros 500 chars
     });
   }
 
